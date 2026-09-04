@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F5EFE6">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="抠抠单词">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icon.svg">
+<title>抠抠单词</title>
+<style>
+:root{--bg:#f6f0e7;--card:#fffdf8;--text:#292923;--muted:#77766d;--line:#ddd5c9;--mint:#c4dccb;--mintD:#547260;--berry:#dfbcc9;--cream:#ead9ae;--blue:#c7d6df;--shadow:0 10px 32px rgba(72,61,48,.07)}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC","Helvetica Neue",Arial,sans-serif}button,select{font:inherit}button{cursor:pointer;color:inherit}.app{max-width:540px;margin:auto;padding:calc(20px + env(safe-area-inset-top)) 18px calc(92px + env(safe-area-inset-bottom))}
+.brandrow{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:24px}.brand h1{margin:0;font-size:34px;line-height:1;letter-spacing:-.045em}.brand .sub{margin-top:8px;font-size:13px;color:var(--muted);display:flex;gap:7px;align-items:center}.dot{width:8px;height:8px;border-radius:50%;background:var(--mintD)}
+.icon{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.5);font-size:20px}.pagehead{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;margin-bottom:14px}.pagehead .meta{font-size:14px;color:var(--muted)}.pagehead .stage{font-size:15px;font-weight:650}.pill{min-height:44px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.5);padding:0 15px;font-size:13px}
+.card{border:1px solid rgba(132,118,98,.22);border-radius:28px;background:var(--card);box-shadow:var(--shadow)}.p{padding:20px}.mint{background:linear-gradient(150deg,#e8f1ea 0,#fffdf8 78%)}.berry{background:linear-gradient(150deg,#f4e6eb 0,#fffdf8 78%)}.cream{background:linear-gradient(150deg,#f5ead1 0,#fffdf8 78%)}.blue{background:linear-gradient(150deg,#e8eff2 0,#fffdf8 78%)}
+.label{font-size:13px;color:var(--muted)}.big{font-size:27px;font-weight:750;letter-spacing:-.035em;margin-top:4px}.between{display:flex;align-items:flex-end;justify-content:space-between;gap:16px}.task{width:100%;display:flex;align-items:center;gap:13px;border:1px solid rgba(132,118,98,.2);border-radius:22px;background:rgba(255,255,255,.82);padding:15px;text-align:left;margin-top:9px}.check{width:30px;height:30px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;flex:none}.tasktext{flex:1;min-width:0}.tasktitle{font-size:17px;font-weight:680}.tasksub{font-size:13px;color:var(--muted);margin-top:4px}.tag{font-size:10px;letter-spacing:.09em;color:var(--muted)}.done{opacity:.48}.done .tasktitle{text-decoration:line-through}
+.two{display:grid;grid-template-columns:1.22fr .78fr;gap:12px;margin-top:12px}.track{height:9px;background:#e5ddd1;border-radius:99px;overflow:hidden;margin-top:16px}.fill{height:100%;background:var(--mintD);border-radius:99px;transition:width .2s}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}.sv{font-weight:680;margin-top:4px}.reward{margin-top:15px;padding-top:14px;border-top:1px solid var(--line);font-size:13px;font-weight:680}.streak{font-size:34px;font-weight:760;letter-spacing:-.04em;margin-top:24px}.hidden{display:none!important}
+.weekrow{padding:13px 0;border-bottom:1px solid var(--line)}.weekrow:last-child{border-bottom:none}.weekrow.active{padding:13px;border:0;border-radius:18px;background:#edf5ef;margin:4px 0}.wtop{display:flex;justify-content:space-between;gap:12px}.wtitle{font-weight:680}.wdate{font-size:12px;color:var(--muted);white-space:nowrap}.wsub{font-size:13px;color:var(--muted);margin-top:4px}.progress-task{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;border:0;background:transparent;padding:10px 0;text-align:left}.progress-task+.progress-task{border-top:1px solid var(--line)}.count{font-size:13px;color:var(--muted);white-space:nowrap}
+.recordgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:14px 0 12px}.mini{padding:14px;border-radius:22px}.n{font-size:28px;font-weight:760;margin-top:6px}.paperrow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 0;border-bottom:1px solid var(--line)}.status{min-height:40px;border:1px solid var(--line);border-radius:999px;background:transparent;padding:7px 11px}.empty{padding:12px 0;color:var(--muted);font-size:13px}.history{margin-top:12px}.histrow{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--line);font-size:13px}
+.sheet{position:fixed;z-index:20;left:50%;bottom:calc(78px + env(safe-area-inset-bottom));transform:translateX(-50%);width:min(500px,calc(100% - 28px));background:#fffdf8;border:1px solid var(--line);border-radius:28px;box-shadow:0 22px 70px rgba(70,56,40,.18);padding:20px}.setting{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}.setting:last-child{border-bottom:0}select{padding:10px 12px;border:1px solid var(--line);border-radius:14px;background:white;font-size:16px}.note{font-size:12px;color:var(--muted);line-height:1.55}
+.nav{position:fixed;z-index:15;left:50%;bottom:calc(10px + env(safe-area-inset-bottom));transform:translateX(-50%);width:min(500px,calc(100% - 28px));display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:rgba(239,233,224,.93);backdrop-filter:blur(18px);border:1px solid rgba(132,118,98,.16);padding:5px;border-radius:22px}.nav button{border:0;background:transparent;min-height:46px;border-radius:17px;color:var(--muted)}.nav button.on{background:#fffdf8;color:var(--text);box-shadow:0 2px 8px rgba(70,56,40,.06)}
+.toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#2d302b;color:white;padding:10px 14px;border-radius:999px;font-size:13px;z-index:30;opacity:0;pointer-events:none;transition:opacity .2s}.toast.show{opacity:1}
+.trial{padding:14px 0;border-bottom:1px solid var(--line)}.trial:last-child{border-bottom:0}.trial-title{font-weight:680}.trial-sub{font-size:13px;color:var(--muted);margin-top:4px}
+@media(max-width:410px){.app{padding-left:14px;padding-right:14px}.two{grid-template-columns:1fr}.recordgrid{gap:6px}.mini{padding:12px}.brand h1{font-size:32px}}
+</style>
+</head>
+<body>
+<main class="app">
+  <div class="brandrow">
+    <div class="brand"><h1>抠抠单词</h1><div class="sub"><span class="dot"></span><span>CET-6 · 过线计划</span></div></div>
+    <button class="icon" id="settingsBtn" aria-label="设置">⋯</button>
+  </div>
+
+  <section id="todayView">
+    <div class="pagehead">
+      <div><div class="stage" id="stageText"></div><div class="meta" id="dateLine"></div></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end">
+        <button class="pill hidden" id="previewBtn">预览正式模式</button>
+        <button class="pill" id="busyBtn">忙碌模式</button>
+      </div>
+    </div>
+
+    <div class="card mint p">
+      <div class="between">
+        <div><div class="label" id="taskLabel">今日任务</div><div class="big" id="timeText">45 min</div></div>
+        <button class="pill" id="swapBtn">换一个</button>
+      </div>
+      <div id="trialBox" class="hidden"></div>
+      <div id="taskBox">
+        <button class="task" id="wordTask"><span class="check"></span><span class="tasktext"><span class="tasktitle">单词</span><span class="tasksub" id="wordSub">25 分钟 · 50–70 个</span></span><span class="tag">DAILY</span></button>
+        <button class="task" id="focusTask"><span class="check"></span><span class="tasktext"><span class="tasktitle" id="focusTitle">真题听力</span><span class="tasksub" id="focusSub">约 25 分钟</span></span><span class="tag">WEEKLY</span></button>
+      </div>
+      <div id="todayDone" class="reward hidden">今天完成 ✓</div>
+    </div>
+
+    <div class="two" id="statsBox">
+      <div class="card berry p">
+        <div class="between"><div><div class="label">本周</div><div class="big"><span id="weekPct">0</span><span style="font-size:14px;color:var(--muted)">%</span></div></div><div class="label">70% 达标</div></div>
+        <div class="track"><div class="fill" id="weekFill"></div></div>
+        <div class="stats"><div><div class="label">单词</div><div class="sv" id="wordStat"></div></div><div><div class="label" id="stat2Label">听力</div><div class="sv" id="stat2"></div></div><div><div class="label" id="stat3Label">阅读</div><div class="sv" id="stat3"></div></div></div>
+        <div id="reward" class="reward hidden">本周达标 · 奖励已解锁</div>
+      </div>
+      <div class="card cream p"><div class="label">阶段</div><div class="tasktitle" style="margin-top:7px" id="phase"></div><div class="tasksub" id="weekNo"></div><div class="streak" id="streak">0</div><div class="label">连续学习天数</div></div>
+    </div>
+  </section>
+
+  <section id="planView" class="hidden">
+    <div class="pagehead"><div><div class="stage">本周计划</div><div class="meta" id="planDate"></div></div></div>
+    <div class="card mint p"><div class="label">重点</div><div class="big" style="font-size:23px" id="weekTitle"></div><div id="weeklyTasks" style="margin-top:16px"></div></div>
+    <div class="card p" style="margin-top:12px"><div class="label" style="margin-bottom:10px">14 周路线</div><div id="weekList"></div></div>
+  </section>
+
+  <section id="recordView" class="hidden">
+    <div class="pagehead"><div><div class="stage">学习记录</div><div class="meta">只留必要信息</div></div></div>
+    <div class="recordgrid"><div class="card mint mini"><div class="label">连续</div><div class="n" id="recordStreak">0</div><div class="label">天</div></div><div class="card berry mini"><div class="label">本周</div><div class="n" id="recordPct">0%</div><div class="label">完成</div></div><div class="card cream mini"><div class="label">真题</div><div class="n" id="paperCount">0</div><div class="label">套</div></div></div>
+    <div class="card p"><div class="between"><div class="tasktitle">真题进度</div><button class="pill" id="addPaper">+ 记录</button></div><div id="paperList"></div></div>
+    <div class="card blue p history"><div class="label">周记录</div><div id="historyList"></div></div>
+  </section>
+
+  <section id="settings" class="sheet hidden">
+    <div class="between" style="margin-bottom:3px"><div><div class="label">设置</div><div class="tasktitle" style="margin-top:5px">保持简单</div></div><button class="pill" id="closeSettings">完成</button></div>
+    <div class="setting"><div><div class="tasktitle" style="font-size:15px">每日提醒</div><div class="tasksub">默认 19:00</div></div><select id="reminderTime"><option>18:00</option><option>19:00</option><option>20:00</option><option>21:00</option><option>22:00</option></select></div>
+    <div class="setting"><div><div class="tasktitle" style="font-size:15px">提醒开关</div><div class="tasksub" id="reminderPreview"></div></div><input id="reminderEnabled" type="checkbox" style="width:22px;height:22px"></div>
+    <div class="setting"><div><div class="tasktitle" style="font-size:15px">数据</div><div class="note">打卡、进度和真题记录只保存在这台设备。正常更新应用不会清空；换网址、删除网站数据或清理存储时可能丢失。</div></div></div>
+    <div class="setting"><div><div class="tasktitle" style="font-size:15px">备份</div><div class="note">偶尔导出一份即可。以后换网址或换手机时可以导入。</div></div><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end"><button class="pill" id="exportBackup" type="button">导出</button><button class="pill" id="importBackup" type="button">导入</button><input id="importFile" type="file" accept="application/json,.json" class="hidden"></div></div>
+  </section>
+</main>
+<nav class="nav"><button class="on" data-view="today">主页</button><button data-view="plan">计划</button><button data-view="record">记录</button></nav>
+<div class="toast" id="toast">已保存</div>
+<script>
+const SCHEDULE=[{"s": "2026-09-07", "e": "2026-09-13", "title": "词汇打底 · 听力开耳", "wordTarget": 7, "tasks": [{"id": "listen", "label": "真题听力", "target": 2, "unit": "组", "duration": "约 25 分钟", "sub": "做题 → 看原文 → 再听"}, {"id": "read", "label": "仔细阅读", "target": 1, "unit": "篇", "duration": "约 20 分钟", "sub": "找定位句和同义替换"}]}, {"s": "2026-09-14", "e": "2026-09-20", "title": "词汇打底 · 听力开耳", "wordTarget": 7, "tasks": [{"id": "listen", "label": "真题听力", "target": 2, "unit": "组", "duration": "约 25 分钟", "sub": "做题 → 看原文 → 再听"}, {"id": "read", "label": "仔细阅读", "target": 1, "unit": "篇", "duration": "约 20 分钟", "sub": "找定位句和同义替换"}]}, {"s": "2026-09-21", "e": "2026-09-27", "title": "保持输入 · 作文入门", "wordTarget": 7, "tasks": [{"id": "listen", "label": "真题听力", "target": 2, "unit": "组", "duration": "约 25 分钟", "sub": "短段精听"}, {"id": "read", "label": "仔细阅读", "target": 1, "unit": "篇", "duration": "约 20 分钟", "sub": "定位 + 同义替换"}, {"id": "writing", "label": "作文入门", "target": 1, "unit": "次", "duration": "约 20 分钟", "sub": "看 1 篇范文，整理三段结构"}]}, {"s": "2026-09-28", "e": "2026-10-04", "title": "保持输入 · 翻译入门", "wordTarget": 7, "tasks": [{"id": "listen", "label": "真题听力", "target": 2, "unit": "组", "duration": "约 25 分钟", "sub": "短段精听"}, {"id": "read", "label": "仔细阅读", "target": 1, "unit": "篇", "duration": "约 20 分钟", "sub": "定位 + 同义替换"}, {"id": "translation", "label": "翻译入门", "target": 1, "unit": "次", "duration": "约 20 分钟", "sub": "做一小段，优先完整表达"}]}, {"s": "2026-10-05", "e": "2026-10-11", "title": "阅读拉分 · 作文", "wordTarget": 7, "tasks": [{"id": "listen", "label": "听力专项", "target": 2, "unit": "组", "duration": "约 25 分钟", "sub": "真题为主"}, {"id": "read", "label": "仔细阅读", "target": 2, "unit": "篇", "duration": "每篇 12–15 分钟", "sub": "定位 + 同义替换"}, {"id": "match", "label": "长篇匹配", "target": 1, "unit": "次", "duration": "约 15 分钟", "sub": "抓关键词"}, {"id": "writing", "label": "作文", "target": 1, "unit": "次", "duration": "约 25 分钟", "sub": "三段结构，少犯错"}]}, {"s": "2026-10-12", "e": "2026-10-18", "title": "阅读拉分 · 翻译", "wordTarget": 7, "tasks": [{"id": "listen", "label": "听力专项", "target": 2, "unit": "组", "duration": "约 25 分钟", "sub": "真题为主"}, {"id": "read", "label": "仔细阅读", "target": 2, "unit": "篇", "duration": "每篇 12–15 分钟", "sub": "定位 + 同义替换"}, {"id": "match", "label": "长篇匹配", "target": 1, "unit": "次", "duration": "约 15 分钟", "sub": "抓关键词"}, {"id": "translation", "label": "翻译", "target": 1, "unit": "次", "duration": "约 25 分钟", "sub": "简单表达优先"}]}, {"s": "2026-10-19", "e": "2026-10-25", "title": "阅读拉分 · 作文", "wordTarget": 7, "tasks": [{"id": "listen", "label": "听力专项", "target": 2, "unit": "组", "duration": "约 25 分钟", "sub": "真题为主"}, {"id": "read", "label": "仔细阅读", "target": 2, "unit": "篇", "duration": "每篇 12–15 分钟", "sub": "定位 + 同义替换"}, {"id": "cloze", "label": "选词填空", "target": 1, "unit": "次", "duration": "5–8 分钟", "sub": "限时，不死磕"}, {"id": "writing", "label": "作文", "target": 1, "unit": "次", "duration": "约 25 分钟", "sub": "三段结构"}]}, {"s": "2026-10-26", "e": "2026-11-01", "title": "阅读拉分 · 翻译", "wordTarget": 7, "tasks": [{"id": "listen", "label": "听力专项", "target": 2, "unit": "组", "duration": "约 25 分钟", "sub": "真题为主"}, {"id": "read", "label": "仔细阅读", "target": 2, "unit": "篇", "duration": "每篇 12–15 分钟", "sub": "定位 + 同义替换"}, {"id": "cloze", "label": "选词填空", "target": 1, "unit": "次", "duration": "5–8 分钟", "sub": "限时，不死磕"}, {"id": "translation", "label": "翻译", "target": 1, "unit": "次", "duration": "约 25 分钟", "sub": "简单表达优先"}]}, {"s": "2026-11-02", "e": "2026-11-08", "title": "真题接管", "wordTarget": 6, "tasks": [{"id": "paper", "label": "真题", "target": 1, "unit": "套", "duration": "可拆分完成", "sub": "不要求一次做完"}, {"id": "review", "label": "错题复盘", "target": 1, "unit": "次", "duration": "约 30 分钟", "sub": "只看真正影响得分的错误"}]}, {"s": "2026-11-09", "e": "2026-11-15", "title": "真题接管", "wordTarget": 6, "tasks": [{"id": "paper", "label": "真题", "target": 1, "unit": "套", "duration": "可拆分完成", "sub": "不要求一次做完"}, {"id": "review", "label": "错题复盘", "target": 1, "unit": "次", "duration": "约 30 分钟", "sub": "只看真正影响得分的错误"}]}, {"s": "2026-11-16", "e": "2026-11-22", "title": "完整模拟", "wordTarget": 6, "tasks": [{"id": "paper", "label": "真题", "target": 1, "unit": "套", "duration": "分段亦可", "sub": "保持题感"}, {"id": "mock", "label": "完整模拟", "target": 1, "unit": "次", "duration": "15:00 开始", "sub": "完整体验考试节奏"}]}, {"s": "2026-11-23", "e": "2026-11-29", "title": "完整模拟", "wordTarget": 6, "tasks": [{"id": "paper", "label": "真题", "target": 1, "unit": "套", "duration": "分段亦可", "sub": "保持题感"}, {"id": "mock", "label": "完整模拟", "target": 1, "unit": "次", "duration": "15:00 开始", "sub": "完整体验考试节奏"}]}, {"s": "2026-11-30", "e": "2026-12-06", "title": "最新真题 · 复盘", "wordTarget": 5, "tasks": [{"id": "mock", "label": "完整模拟", "target": 1, "unit": "次", "duration": "完整做一套", "sub": "尽量用较新真题"}, {"id": "relisten", "label": "听力重听", "target": 1, "unit": "次", "duration": "约 25 分钟", "sub": "重听做过的真题"}, {"id": "review", "label": "错题复盘", "target": 1, "unit": "次", "duration": "约 30 分钟", "sub": "回看旧错题"}]}, {"s": "2026-12-07", "e": "2026-12-11", "title": "减量 · 保持状态", "wordTarget": 4, "tasks": [{"id": "lastmock", "label": "最后模拟", "target": 1, "unit": "次", "duration": "12/9 前完成", "sub": "之后不再做整套"}, {"id": "listenlight", "label": "轻听力", "target": 2, "unit": "次", "duration": "10–15 分钟", "sub": "保持耳朵状态"}, {"id": "structure", "label": "写译结构", "target": 1, "unit": "次", "duration": "约 15 分钟", "sub": "过作文结构和常用句"}]}];
+(()=>{
+const STORAGE='koko_words_v2';
+const DEFAULT={version:4,settings:{reminderTime:'19:00',reminderEnabled:true},days:{},weeks:{},papers:[]};
+let state;
+try{state=JSON.parse(localStorage.getItem(STORAGE))||structuredClone(DEFAULT)}catch(e){state=structuredClone(DEFAULT)}
+state.settings=state.settings||structuredClone(DEFAULT.settings);state.days=state.days||{};state.weeks=state.weeks||{};state.papers=state.papers||[];
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const pad=n=>String(n).padStart(2,'0'),toNum=s=>{let [y,m,d]=s.split('-').map(Number);return Date.UTC(y,m-1,d)/86400000};
+const now=new Date(),todayKey=`${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`,todayNum=Date.UTC(now.getFullYear(),now.getMonth(),now.getDate())/86400000;
+const examNum=toNum('2026-12-12'),remain=Math.max(0,Math.round(examNum-todayNum)),trial=todayNum>=toNum('2026-09-04')&&todayNum<=toNum('2026-09-06');
+let wi=SCHEDULE.findIndex(w=>todayNum>=toNum(w.s)&&todayNum<=toNum(w.e));if(wi<0)wi=todayNum<toNum('2026-09-07')?0:SCHEDULE.length-1;let previewFormal=false;
+const wk=()=>SCHEDULE[wi],weekState=()=>state.weeks[wi]||(state.weeks[wi]={tasks:{}}),dayState=()=>state.days[todayKey]||(state.days[todayKey]={word:false,focus:null,busy:false,focusIndex:0});
+function save(msg=true){localStorage.setItem(STORAGE,JSON.stringify(state));if(msg){const t=$('#toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),750)}}
+function phase(){if(trial&&!previewFormal)return ['试运行','正式开始前'];if(wi<=3)return ['词汇打底',`Week ${wi+1} / 14`];if(wi<=7)return ['分题型训练',`Week ${wi+1} / 14`];if(wi<=11)return ['真题主导',`Week ${wi+1} / 14`];return ['冲刺',`Week ${wi+1} / 14`]}
+function taskCount(id){return Number(weekState().tasks[id]||0)}function setCount(id,n){const target=wk().tasks.find(t=>t.id===id)?.target||0;weekState().tasks[id]=Math.max(0,Math.min(target,n))}
+function wordDays(){const w=wk();return Object.entries(state.days).filter(([k,v])=>toNum(k)>=toNum(w.s)&&toNum(k)<=toNum(w.e)&&v.word).length}
+function pct(){const w=wk(),wp=Math.min(1,wordDays()/w.wordTarget);const others=w.tasks.length?w.tasks.reduce((a,t)=>a+Math.min(1,taskCount(t.id)/t.target),0)/w.tasks.length:1;return Math.round((wp*.4+others*.6)*100)}
+function streak(){let c=0,n=todayNum;for(;;n--){const d=new Date(n*86400000),k=`${d.getUTCFullYear()}-${pad(d.getUTCMonth()+1)}-${pad(d.getUTCDate())}`,v=state.days[k];if(v&&(v.word||v.focus))c++;else if(n===todayNum){continue}else break}return c}
+function incompleteTasks(){return wk().tasks.filter(t=>taskCount(t.id)<t.target)}
+function focusTask(){let a=incompleteTasks();if(!a.length)a=wk().tasks;let i=dayState().focusIndex||0;return a[i%a.length]||wk().tasks[0]}
+function renderToday(){
+ const effectiveTrial=trial&&!previewFormal;const [ph,wno]=phase();$('#phase').textContent=ph;$('#weekNo').textContent=wno;$('#stageText').textContent=effectiveTrial?'试运行':`${ph} · Week ${wi+1}`;$('#dateLine').textContent=`${now.getMonth()+1} 月 ${now.getDate()} 日 · 距六级 ${remain} 天`;
+ $('#previewBtn').classList.toggle('hidden',!trial);$('#previewBtn').textContent=previewFormal?'返回试运行':'预览正式模式';$('#trialBox').classList.toggle('hidden',!effectiveTrial);$('#taskBox').classList.toggle('hidden',effectiveTrial);$('#statsBox').classList.toggle('hidden',effectiveTrial);$('#swapBtn').classList.toggle('hidden',effectiveTrial);$('#busyBtn').classList.toggle('hidden',effectiveTrial);
+ if(effectiveTrial){$('#taskLabel').textContent='正式开始前';$('#timeText').textContent='随便试试';$('#trialBox').innerHTML='<div class="trial"><div class="trial-title">装好背词 App</div><div class="trial-sub">选六级词书，试背 10–20 分钟。</div></div><div class="trial"><div class="trial-title">翻一下星火真题</div><div class="trial-sub">只熟悉题型，不正式做。</div></div><div class="trial"><div class="trial-title">试听一小段</div><div class="trial-sub">感受难度即可，不记成绩。</div></div>';return}
+ const d=dayState(),f=focusTask();$('#busyBtn').textContent=d.busy?'普通模式':'忙碌模式';$('#timeText').textContent=d.busy?'10 min':'45 min';$('#wordSub').textContent=d.busy?'10 分钟 · 只复习也可以':(wi<=3?'25 分钟 · 50–70 个':wi<=7?'20–25 分钟 · 30–50 个':wi<=11?'15–20 分钟 · 真题词为主':'10–15 分钟 · 只复习');
+ $('#focusTask').classList.toggle('hidden',d.busy);$('#focusTitle').textContent=f.label;$('#focusSub').textContent=`${f.duration} · ${f.sub}`;
+ $('#wordTask').classList.toggle('done',d.word);$('#wordTask .check').textContent=d.word?'✓':'';const fd=d.focus===f.id;$('#focusTask').classList.toggle('done',fd);$('#focusTask .check').textContent=fd?'✓':'';
+ $('#todayDone').classList.toggle('hidden',!(d.word&&(d.busy||fd)));const p=pct();$('#weekPct').textContent=p;$('#weekFill').style.width=p+'%';$('#reward').classList.toggle('hidden',p<70);$('#wordStat').textContent=`${wordDays()} / ${wk().wordTarget}`;
+ const shown=wk().tasks.slice(0,2);$('#stat2Label').textContent=shown[0]?.label||'专项';$('#stat2').textContent=shown[0]?`${taskCount(shown[0].id)} / ${shown[0].target}`:'—';$('#stat3Label').textContent=shown[1]?.label||'专项';$('#stat3').textContent=shown[1]?`${taskCount(shown[1].id)} / ${shown[1].target}`:'—';$('#streak').textContent=streak();
+}
+function renderPlan(){
+ const w=wk();$('#planDate').textContent=(trial&&previewFormal?'正式模式预览 · ':'')+`Week ${wi+1} · ${w.s.slice(5).replace('-','/')} — ${w.e.slice(5).replace('-','/')}`;$('#weekTitle').textContent=w.title;
+ let rows=`<div class="progress-task"><span><span class="tasktitle" style="font-size:15px">单词</span><span class="tasksub">${wi<=3?'20–30 分钟 / 天':'持续不断线'}</span></span><span class="count">${wordDays()} / ${w.wordTarget} 天</span></div>`;
+ rows+=w.tasks.map(t=>`<button class="progress-task" data-progress="${t.id}"><span><span class="tasktitle" style="font-size:15px">${t.label}</span><span class="tasksub">${t.duration}</span></span><span class="count">${taskCount(t.id)} / ${t.target} ${t.unit}</span></button>`).join('');$('#weeklyTasks').innerHTML=rows;
+ $$('[data-progress]').forEach(b=>b.addEventListener('click',()=>{const id=b.dataset.progress,set=wk().tasks.find(t=>t.id===id);let n=taskCount(id)+1;if(n>set.target)n=0;setCount(id,n);save();renderAll()}));
+ $('#weekList').innerHTML=SCHEDULE.map((x,i)=>`<div class="weekrow ${i===wi?'active':''}"><div class="wtop"><div class="wtitle">W${i+1} · ${x.title}</div><div class="wdate">${x.s.slice(5).replace('-','/')}–${x.e.slice(5).replace('-','/')}</div></div><div class="wsub">单词 · ${x.tasks.map(t=>t.label).join(' · ')}</div></div>`).join('');
+}
+function renderRecord(){
+ const p=pct();$('#recordStreak').textContent=streak();$('#recordPct').textContent=p+'%';$('#paperCount').textContent=state.papers.length;const list=$('#paperList');
+ if(!state.papers.length)list.innerHTML='<div class="empty">还没有记录</div>';else{list.innerHTML='';state.papers.forEach((x,i)=>{const r=document.createElement('div');r.className='paperrow';r.innerHTML=`<span>${x.name}</span><button class="status">${['未开始','进行中','已完成'][x.status]}</button>`;r.querySelector('button').addEventListener('click',()=>{x.status=(x.status+1)%3;save();renderRecord()});list.appendChild(r)})}
+ const hist=[];for(let i=0;i<=wi;i++){const w=SCHEDULE[i],ws=state.weeks[i]||{tasks:{}};const words=Object.entries(state.days).filter(([k,v])=>toNum(k)>=toNum(w.s)&&toNum(k)<=toNum(w.e)&&v.word).length;const wp=Math.min(1,words/w.wordTarget);const other=w.tasks.length?w.tasks.reduce((a,t)=>a+Math.min(1,Number(ws.tasks[t.id]||0)/t.target),0)/w.tasks.length:1;hist.push([`W${i+1}`,Math.round((wp*.4+other*.6)*100)])}
+ $('#historyList').innerHTML=hist.slice(-5).reverse().map(h=>`<div class="histrow"><span>${h[0]}</span><span>${h[1]}% ${h[1]>=70?'· 达标':''}</span></div>`).join('');
+}
+function renderSettings(){$('#reminderTime').value=state.settings.reminderTime;$('#reminderEnabled').checked=state.settings.reminderEnabled;$('#reminderPreview').textContent=state.settings.reminderEnabled?`${state.settings.reminderTime} · 今天的六级计划看一眼？`:'已关闭'}
+function renderAll(){renderToday();renderPlan();renderRecord();renderSettings()}
+$('#wordTask').addEventListener('click',()=>{const d=dayState();d.word=!d.word;save();renderAll()});
+$('#focusTask').addEventListener('click',()=>{const d=dayState(),f=focusTask();if(d.focus===f.id){d.focus=null;setCount(f.id,taskCount(f.id)-1)}else{if(d.focus){setCount(d.focus,taskCount(d.focus)-1)}d.focus=f.id;setCount(f.id,taskCount(f.id)+1)}save();renderAll()});
+$('#swapBtn').addEventListener('click',()=>{const d=dayState();d.focusIndex=(d.focusIndex||0)+1;d.focus=null;save(false);renderToday()});
+$('#previewBtn').addEventListener('click',()=>{previewFormal=!previewFormal;renderToday();renderPlan();renderRecord()});
+$('#busyBtn').addEventListener('click',()=>{dayState().busy=!dayState().busy;save();renderToday()});
+$('#addPaper').addEventListener('click',()=>{state.papers.push({name:`真题 ${state.papers.length+1}`,status:0});save();renderRecord()});
+$('#settingsBtn').addEventListener('click',()=>$('#settings').classList.toggle('hidden'));$('#closeSettings').addEventListener('click',()=>$('#settings').classList.add('hidden'));
+$('#reminderTime').addEventListener('change',e=>{state.settings.reminderTime=e.target.value;save();renderSettings()});$('#reminderEnabled').addEventListener('change',e=>{state.settings.reminderEnabled=e.target.checked;save();renderSettings()});
+$('#exportBackup').addEventListener('click',()=>{
+  try{
+    const payload={app:'抠抠单词',exportedAt:new Date().toISOString(),data:state};
+    const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob),a=document.createElement('a');
+    a.href=url;a.download=`抠抠单词备份_${todayKey}.json`;document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+  }catch(e){alert('导出失败，请稍后再试。')}
+});
+$('#importBackup').addEventListener('click',()=>$('#importFile').click());
+$('#importFile').addEventListener('change',async e=>{
+  const file=e.target.files&&e.target.files[0];if(!file)return;
+  try{
+    const raw=await file.text(),parsed=JSON.parse(raw),incoming=parsed&&parsed.data?parsed.data:parsed;
+    if(!incoming||typeof incoming!=='object'||!incoming.days||!incoming.weeks||!incoming.settings)throw new Error('bad');
+    state=incoming;state.settings=state.settings||structuredClone(DEFAULT.settings);state.days=state.days||{};state.weeks=state.weeks||{};state.papers=state.papers||[];
+    save();renderAll();alert('备份已导入。');
+  }catch(err){alert('这不是有效的抠抠单词备份文件。')}
+  e.target.value='';
+});
+$$('[data-view]').forEach(b=>b.addEventListener('click',()=>{const v=b.dataset.view;['today','plan','record'].forEach(n=>$('#'+n+'View').classList.toggle('hidden',n!==v));$$('[data-view]').forEach(x=>x.classList.toggle('on',x===b));$('#settings').classList.add('hidden')}));
+renderAll();
+})();
+</script>
+<script>if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(()=>{});</script>
+</body>
+</html>
