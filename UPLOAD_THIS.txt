@@ -1,0 +1,42 @@
+抠抠单词 v3.3.1 · 图标修正版
+
+这次不要手工编辑任何代码。
+
+【GitHub 操作】
+1. 解压这个 ZIP。
+2. 打开 GitHub 的 koko-words 仓库。
+3. Add file → Upload files。
+4. 一次性拖进去下面 7 个文件：
+   - index.html
+   - manifest.webmanifest
+   - sw.js
+   - coco-icon-180-v1.png
+   - coco-icon-192-v1.png
+   - coco-icon-512-v1.png
+   - coco-favicon-32-v1.png
+5. GitHub 如果提示同名的 index.html / manifest.webmanifest / sw.js 被替换，这是正常的。
+6. 点 Commit changes。
+7. 建议 Commit message：
+   fix: install Coco app icon and refresh PWA cache
+8. 等 GitHub Pages 自动部署完成。
+
+【不要处理】
+旧的 icon.svg 可以继续留在仓库里，它已经不会再被网站引用。
+不需要删除，不需要改代码。
+
+【iPhone 必须这样测试】
+1. 先不要从主屏幕旧图标打开。
+2. Safari 直接打开你的 GitHub Pages 网址。
+3. 刷新一次，确认网站能正常显示。
+4. 删除主屏幕上原来的“抠抠单词”图标。
+5. 回到 Safari 的网站页面：
+   分享 → 添加到主屏幕。
+6. 新添加的图标应该读取 coco-icon-180-v1.png。
+
+重要：
+已经存在的 iOS 主屏幕 Web App 图标通常不会随着网页更新自动换图标，
+所以“删除旧主屏幕图标后重新添加”是必要步骤。
+
+数据：
+同一个 GitHub Pages 域名没有改变，所以网页本地数据仍属于同一个 origin。
+但为了稳妥，若已经有正式学习数据，删除主屏幕图标前先在 App 设置里导出备份。
